@@ -51,6 +51,8 @@ ENV/
 .env.*.local
 *.key
 *.pem
+# Mais garder env.example pour référence
+!env.example
 
 # Fichiers de test
 test_*.py
