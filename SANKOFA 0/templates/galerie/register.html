@@ -1,0 +1,60 @@
+{% extends 'galerie/base.html' %}
+{% load static %}
+
+{% block content %}
+<div style="min-height: calc(100vh - 200px); display: flex; align-items: center; justify-content: center; background: linear-gradient(135deg, var(--color-bg-light), #f3f4f6); padding: 2rem;">
+    <div style="width: 100%; max-width: 28rem;">
+        <div class="text-center mb-4">
+            <div style="width: 5rem; height: 5rem; background: linear-gradient(135deg, var(--color-primary), var(--color-primary-dark)); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1rem; box-shadow: var(--shadow-lg);">
+                <span style="color: white; font-size: 2rem; font-weight: 600;">S</span>
+            </div>
+            <h1 style="font-size: 2rem; color: var(--color-text); margin-bottom: 0.5rem;">Créer un compte</h1>
+            <p style="color: var(--color-text-light);">Rejoignez la communauté Sankofa</p>
+        </div>
+
+        <div class="card" style="box-shadow: var(--shadow-lg);">
+            <div class="card-content">
+                <form method="post">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <label class="form-label">Nom d'utilisateur *</label>
+                        <input type="text" name="username" class="form-input" required placeholder="Votre nom d'utilisateur">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Email *</label>
+                        <input type="email" name="email" class="form-input" required placeholder="votre@email.com">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Mot de passe *</label>
+                        <input type="password" name="password" class="form-input" required placeholder="••••••••">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Téléphone</label>
+                        <input type="text" name="phone" class="form-input" placeholder="+225 07 00 00 00 00">
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary btn-lg" style="width: 100%;">
+                        Créer mon compte
+                    </button>
+                </form>
+                
+                <div style="margin-top: 1rem; text-align: center;">
+                    <p style="font-size: 0.875rem; color: var(--color-text-light);">
+                        Déjà un compte ? 
+                        <a href="{% url 'galerie:login' %}" style="color: var(--color-primary); text-decoration: none; font-weight: 500;">
+                            Se connecter
+                        </a>
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="text-center mt-4">
+            <a href="{% url 'galerie:home' %}" style="color: var(--color-text-light); text-decoration: none; font-size: 0.875rem;">
+                ← Retour au site
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}
+

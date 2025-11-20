@@ -1,0 +1,130 @@
+{% extends 'galerie/base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container" style="padding: 3rem 0;">
+    <h1 class="section-title">Mon Profil</h1>
+    
+    <div style="display: grid; grid-template-columns: 1fr; gap: 2rem; max-width: 64rem; margin: 2rem auto 0;">
+        <!-- Informations personnelles -->
+        <div class="card">
+            <div class="card-content">
+                <h2 style="font-size: 1.5rem; color: var(--color-text); margin-bottom: 1.5rem; display: flex; align-items: center; gap: 0.5rem;">
+                    <i class="fas fa-user" style="color: var(--color-primary);"></i>
+                    Informations personnelles
+                </h2>
+                <form method="post">
+                    {% csrf_token %}
+                    <div style="display: flex; flex-direction: column; gap: 1.5rem;">
+                        <div>
+                            <label style="display: block; font-size: 0.875rem; color: var(--color-text-light); margin-bottom: 0.5rem;">Nom d'utilisateur</label>
+                            <p style="color: var(--color-text); font-weight: 500; padding: 0.75rem; background-color: var(--color-bg-light); border-radius: var(--radius);">{{ user.username }}</p>
+                        </div>
+                        <div>
+                            <label style="display: block; font-size: 0.875rem; color: var(--color-text-light); margin-bottom: 0.5rem;">Email</label>
+                            <p style="color: var(--color-text); font-weight: 500; padding: 0.75rem; background-color: var(--color-bg-light); border-radius: var(--radius);">{{ user.email }}</p>
+                        </div>
+                        <div>
+                            <label class="form-label">Téléphone</label>
+                            <input type="text" name="phone" class="form-input" value="{{ profile.phone }}" placeholder="+225 07 00 00 00 00">
+                        </div>
+                        <div>
+                            <label class="form-label">Adresse complète</label>
+                            <textarea name="address" class="form-textarea" rows="3" placeholder="Ville, quartier, détails d'adresse...">{{ profile.address }}</textarea>
+                        </div>
+                        <div>
+                            <label class="form-label">WhatsApp</label>
+                            <input type="text" name="whatsapp" class="form-input" value="{{ profile.whatsapp }}" placeholder="+225 07 00 00 00 00">
+                        </div>
+                        <div style="padding-top: 1rem; border-top: 1px solid var(--color-border);">
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-save"></i> Enregistrer les modifications
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        
+        <!-- Statistiques -->
+        <div class="card" style="background-color: var(--color-bg-light);">
+            <div class="card-content">
+                <h2 style="font-size: 1.5rem; color: var(--color-text); margin-bottom: 1.5rem; display: flex; align-items: center; gap: 0.5rem;">
+                    <i class="fas fa-chart-bar" style="color: var(--color-primary);"></i>
+                    Mes statistiques
+                </h2>
+                <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem;">
+                    <div style="text-align: center; padding: 1rem; background-color: white; border-radius: var(--radius);">
+                        <div style="font-size: 2rem; font-weight: 700; color: var(--color-primary);">{{ profile.user.orders.count }}</div>
+                        <div style="font-size: 0.875rem; color: var(--color-text-light);">Commandes</div>
+                    </div>
+                    <div style="text-align: center; padding: 1rem; background-color: white; border-radius: var(--radius);">
+                        <div style="font-size: 2rem; font-weight: 700; color: #10b981;">{{ delivered_count }}</div>
+                        <div style="font-size: 0.875rem; color: var(--color-text-light);">Livrées</div>
+                    </div>
+                    <div style="text-align: center; padding: 1rem; background-color: white; border-radius: var(--radius);">
+                        <div style="font-size: 2rem; font-weight: 700; color: #ef4444;">{{ favorites|length }}</div>
+                        <div style="font-size: 0.875rem; color: var(--color-text-light);">Favoris</div>
+                    </div>
+                </div>
+                <div style="margin-top: 1rem; text-align: center;">
+                    <a href="{% url 'galerie:favorites_list' %}" class="btn btn-outline" style="width: 100%;">
+                        <i class="fas fa-heart"></i> Voir mes favoris
+                    </a>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Historique récent -->
+        <div class="card">
+            <div class="card-content">
+                <h2 style="font-size: 1.5rem; color: var(--color-text); margin-bottom: 1.5rem; display: flex; align-items: center; gap: 0.5rem;">
+                    <i class="fas fa-history" style="color: var(--color-primary);"></i>
+                    Dernières commandes
+                </h2>
+                {% if profile.user.orders.all %}
+                    <div style="display: flex; flex-direction: column; gap: 1rem;">
+                        {% for order in profile.user.orders.all|slice:":5" %}
+                            <div style="padding: 1rem; background-color: var(--color-bg-light); border-radius: var(--radius);">
+                                <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 0.5rem;">
+                                    <div>
+                                        <strong style="color: var(--color-text);">Commande {{ order.order_number }}</strong>
+                                        <p style="font-size: 0.875rem; color: var(--color-text-light); margin-top: 0.25rem;">{{ order.created_at|date:"d/m/Y" }}</p>
+                                    </div>
+                                    {% if order.status == 'en attente' %}
+                                        <span class="badge badge-warning">En attente</span>
+                                    {% elif order.status == 'en cours' %}
+                                        <span class="badge badge-primary">En cours</span>
+                                    {% elif order.status == 'livrée' %}
+                                        <span class="badge" style="background-color: #10b981; color: white;">Livrée</span>
+                                    {% endif %}
+                                </div>
+                                <p style="font-size: 0.875rem; color: var(--color-text-light);">{{ order.product.name }} - {{ order.quantity }}x</p>
+                                <p style="font-size: 1rem; color: var(--color-primary); font-weight: 600;">{{ order.total|floatformat:0 }} XOF</p>
+                            </div>
+                        {% empty %}
+                            <p style="text-align: center; color: var(--color-text-light); padding: 2rem;">
+                                Vous n'avez pas encore passé de commande.
+                            </p>
+                        {% endfor %}
+                    </div>
+                    <div style="margin-top: 1rem; text-align: center;">
+                        <a href="{% url 'galerie:order_tracking' %}" class="btn btn-outline">
+                            Voir toutes mes commandes
+                        </a>
+                    </div>
+                {% else %}
+                    <p style="text-align: center; color: var(--color-text-light); padding: 2rem;">
+                        Vous n'avez pas encore passé de commande.
+                    </p>
+                    <div style="text-align: center;">
+                        <a href="{% url 'galerie:gallery' %}" class="btn btn-primary">
+                            Découvrir nos produits
+                        </a>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

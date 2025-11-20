@@ -1,0 +1,79 @@
+{% extends 'galerie/base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container" style="padding: 2rem 0;">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+        <h1 style="font-size: 2rem; color: var(--color-text);">Mes favoris</h1>
+        <a href="{% url 'galerie:home' %}" class="btn btn-outline">
+            <i class="fas fa-arrow-left"></i> Retour
+        </a>
+    </div>
+    
+    {% if favorites %}
+        <div class="grid grid-3">
+            {% for favorite in favorites %}
+                <div class="product-card" onclick="window.location.href='{% url 'galerie:product_detail' favorite.product.slug %}'">
+                    <div class="product-image-wrapper">
+                        <img src="{{ favorite.product.get_image }}" alt="{{ favorite.product.name }}" class="product-image">
+                        <div class="product-badge">
+                            <span class="badge badge-warning">{{ favorite.product.category.name }}</span>
+                        </div>
+                        <button class="favorite-btn-active" 
+                                onclick="event.stopPropagation(); removeFavorite({{ favorite.product.id }});"
+                                style="position: absolute; top: 0.75rem; right: 0.75rem; background: rgba(239, 68, 68, 0.9); color: white; border: none; border-radius: 50%; width: 2.5rem; height: 2.5rem; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.3s ease;">
+                            <i class="fas fa-heart"></i>
+                        </button>
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-name">{{ favorite.product.name }}</h3>
+                        <p class="product-description">{{ favorite.product.description|truncatewords:15 }}</p>
+                        <div class="product-price">{{ favorite.product.price|floatformat:0 }} XOF</div>
+                        <div class="product-actions">
+                            <a href="{% url 'galerie:product_detail' favorite.product.slug %}" class="btn btn-primary" style="flex: 1;">
+                                Voir détails
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="card" style="text-align: center; padding: 3rem;">
+            <i class="fas fa-heart" style="font-size: 4rem; color: var(--color-text-light); margin-bottom: 1rem; opacity: 0.5;"></i>
+            <h2 style="font-size: 1.5rem; color: var(--color-text); margin-bottom: 0.5rem;">Aucun favori</h2>
+            <p style="color: var(--color-text-light); margin-bottom: 1.5rem;">
+                Vous n'avez pas encore ajouté de produits à vos favoris.
+            </p>
+            <a href="{% url 'galerie:gallery' %}" class="btn btn-primary">
+                <i class="fas fa-shopping-bag"></i> Parcourir la galerie
+            </a>
+        </div>
+    {% endif %}
+</div>
+
+<script>
+function removeFavorite(productId) {
+    const url = '{% url "galerie:remove_favorite" 0 %}'.replace('0', productId);
+    
+    fetch(url, {
+        method: 'POST',
+        headers: {
+            'X-CSRFToken': '{{ csrf_token }}',
+            'Content-Type': 'application/json',
+        },
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            // Recharger la page pour mettre à jour la liste
+            window.location.reload();
+        }
+    })
+    .catch(error => {
+        console.error('Erreur:', error);
+    });
+}
+</script>
+{% endblock %}
+

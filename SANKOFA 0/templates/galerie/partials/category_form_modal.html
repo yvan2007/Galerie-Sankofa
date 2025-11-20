@@ -1,0 +1,114 @@
+{% load static %}
+<div class="modal" id="categoryModal" style="display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); z-index: 1001; align-items: center; justify-content: center;">
+    <div class="modal-content" style="background: white; border-radius: var(--radius-lg); max-width: 32rem; width: 90%; box-shadow: var(--shadow-lg);">
+        <div style="padding: 2rem;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+                <h2 style="font-size: 1.5rem; color: var(--color-text);">
+                    {% if action == 'create' %}Ajouter une catégorie{% else %}Modifier la catégorie{% endif %}
+                </h2>
+                <button onclick="closeCategoryModal()" style="background: none; border: none; font-size: 1.5rem; cursor: pointer; color: var(--color-text-light);">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            
+            <form id="categoryForm" method="post" action="{% if action == 'create' %}{% url 'galerie:category_create' %}{% else %}{% url 'galerie:category_update' category.id %}{% endif %}" onsubmit="submitCategoryForm(event)">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label class="form-label">{{ form.name.label }} *</label>
+                    {{ form.name }}
+                    {{ form.name.errors }}
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">{{ form.description.label }}</label>
+                    {{ form.description }}
+                    {{ form.description.errors }}
+                </div>
+                
+                <div style="display: flex; gap: 1rem; margin-top: 2rem;">
+                    <button type="submit" class="btn btn-primary" style="flex: 1;">
+                        <i class="fas fa-save"></i> Enregistrer
+                    </button>
+                    <button type="button" onclick="closeCategoryModal()" class="btn btn-outline">
+                        Annuler
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+function closeCategoryModal() {
+    const modal = document.getElementById('categoryModal');
+    if (modal) {
+        modal.style.display = 'none';
+        document.body.style.overflow = '';
+    }
+}
+
+// Fermer le modal de catégorie en cliquant en dehors (une seule fois)
+(function() {
+    const modal = document.getElementById('categoryModal');
+    if (modal) {
+        modal.addEventListener('click', function(event) {
+            if (event.target === modal) {
+                closeCategoryModal();
+            }
+        });
+    }
+})();
+
+function submitCategoryForm(event) {
+    event.preventDefault();
+    const form = event.target;
+    const formData = new FormData(form);
+    
+    // Récupérer l'URL d'action depuis le formulaire
+    let actionUrl = form.action;
+    if (!actionUrl || actionUrl === '') {
+        actionUrl = '{% url "galerie:category_create" %}';
+    }
+    
+    fetch(actionUrl, {
+        method: 'POST',
+        body: formData,
+        headers: {
+            'X-Requested-With': 'XMLHttpRequest',
+            'X-CSRFToken': formData.get('csrfmiddlewaretoken')
+        }
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Erreur HTTP: ' + response.status);
+        }
+        return response.json();
+    })
+    .then(data => {
+        if (data.success) {
+            alert(data.message || 'Catégorie enregistrée avec succès !');
+            closeCategoryModal();
+            // Recharger la page pour mettre à jour les catégories dans le formulaire produit
+            location.reload();
+        } else {
+            let errorMsg = 'Erreur: ';
+            if (data.errors) {
+                errorMsg += Object.values(data.errors).flat().join(', ');
+            } else {
+                errorMsg += (data.message || 'Une erreur est survenue');
+            }
+            alert(errorMsg);
+            // Si le serveur renvoie le HTML avec les erreurs, le mettre à jour
+            if (data.html) {
+                document.getElementById('categoryModalContainer').innerHTML = data.html;
+            }
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert('Une erreur est survenue lors de l\'envoi du formulaire');
+    });
+}
+</script>
+
+

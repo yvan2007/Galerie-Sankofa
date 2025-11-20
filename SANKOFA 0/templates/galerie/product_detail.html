@@ -1,0 +1,145 @@
+{% extends 'galerie/base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container" style="padding: 2rem 0;">
+    <a href="{% url 'galerie:home' %}" class="btn btn-outline mb-4">
+        <i class="fas fa-arrow-left"></i> Retour
+    </a>
+    
+    <div class="grid grid-2" style="gap: 3rem; margin-bottom: 4rem;">
+        <div style="aspect-ratio: 1; border-radius: var(--radius-lg); overflow: hidden; box-shadow: var(--shadow-lg);">
+            <img src="{{ product.get_image }}" alt="{{ product.name }}" style="width: 100%; height: 100%; object-fit: cover;">
+        </div>
+        
+        <div>
+            <span class="badge badge-warning mb-2">{{ product.category.name }}</span>
+            <h1 style="font-size: 2.5rem; color: var(--color-text); margin-bottom: 1rem;">{{ product.name }}</h1>
+            <p style="font-size: 1.5rem; color: var(--color-primary); margin-bottom: 1.5rem;">{{ product.price|floatformat:0 }} XOF</p>
+            
+            <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1.5rem; flex-wrap: wrap;">
+                <div style="display: flex; align-items: center; gap: 0.5rem;">
+                    {% if product.availability and product.stock > 0 %}
+                        <i class="fas fa-check-circle" style="color: #10b981;"></i>
+                        <span style="color: #065f46; font-weight: 500;">En stock ({{ product.stock }} disponible{{ product.stock|pluralize:"s" }})</span>
+                    {% elif product.availability %}
+                        <i class="fas fa-exclamation-circle" style="color: #f59e0b;"></i>
+                        <span style="color: #92400e; font-weight: 500;">Disponible</span>
+                    {% else %}
+                        <i class="fas fa-times-circle" style="color: #ef4444;"></i>
+                        <span style="color: #991b1b; font-weight: 500;">Épuisé</span>
+                    {% endif %}
+                </div>
+                {% if user.is_authenticated %}
+                    <button id="favorite-btn" 
+                            data-product-id="{{ product.id }}"
+                            data-is-favorite="{% if is_favorite %}true{% else %}false{% endif %}"
+                            class="btn btn-outline"
+                            style="padding: 0.5rem 1rem; border-radius: 0.5rem; transition: all 0.3s ease;">
+                        <i class="{% if is_favorite %}fas{% else %}far{% endif %} fa-heart" 
+                           style="color: {% if is_favorite %}#ef4444{% else %}var(--color-text-light){% endif %};"></i>
+                        <span style="margin-left: 0.5rem;">{% if is_favorite %}Retirer des favoris{% else %}Ajouter aux favoris{% endif %}</span>
+                    </button>
+                {% endif %}
+            </div>
+            
+            <div style="margin-bottom: 2rem;">
+                <h2 style="font-size: 1.25rem; color: var(--color-text); margin-bottom: 0.75rem;">Description</h2>
+                <p style="color: var(--color-text-light); margin-bottom: 0.75rem;">{{ product.description }}</p>
+                <p style="color: var(--color-text-light);">{{ product.details }}</p>
+            </div>
+            
+            {% if product.availability %}
+                <div style="display: flex; flex-direction: column; gap: 0.75rem;">
+                    <a href="{% url 'galerie:order_create_product' product.id %}" class="btn btn-primary btn-lg">
+                        <i class="fas fa-shopping-cart"></i> Commander
+                    </a>
+                    <a href="https://wa.me/22507000000?text=Bonjour, je suis intéressé(e) par {{ product.name }}" target="_blank" class="btn btn-green btn-lg">
+                        <i class="fab fa-whatsapp"></i> Contacter l'artisan
+                    </a>
+                </div>
+            {% else %}
+                <a href="https://wa.me/22507000000?text=Bonjour, je souhaite être notifié(e) quand {{ product.name }} sera disponible" target="_blank" class="btn btn-green btn-lg">
+                    <i class="fab fa-whatsapp"></i> Me notifier quand disponible
+                </a>
+            {% endif %}
+        </div>
+    </div>
+    
+    {% if related_products %}
+        <section>
+            <h2 style="font-size: 1.5rem; color: var(--color-text); margin-bottom: 1.5rem;">Produits similaires</h2>
+            <div class="grid grid-3">
+                {% for related in related_products %}
+                    <div class="product-card" onclick="window.location.href='{% url 'galerie:product_detail' related.slug %}'">
+                        <div class="product-image-wrapper">
+                            <img src="{{ related.get_image }}" alt="{{ related.name }}" class="product-image">
+                            <div class="product-badge">
+                                <span class="badge badge-warning">{{ related.category.name }}</span>
+                            </div>
+                        </div>
+                        <div class="product-info">
+                            <h3 class="product-name">{{ related.name }}</h3>
+                            <p class="product-description">{{ related.description }}</p>
+                            <div class="product-price">{{ related.price|floatformat:0 }} XOF</div>
+                            <div class="product-actions">
+                                <a href="{% url 'galerie:product_detail' related.slug %}" class="btn btn-primary" style="flex: 1;">
+                                    Voir détails
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </section>
+    {% endif %}
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const favoriteBtn = document.getElementById('favorite-btn');
+    if (favoriteBtn) {
+        favoriteBtn.addEventListener('click', function() {
+            const productId = this.getAttribute('data-product-id');
+            const isFavorite = this.getAttribute('data-is-favorite') === 'true';
+            const url = isFavorite 
+                ? '{% url "galerie:remove_favorite" 0 %}'.replace('0', productId)
+                : '{% url "galerie:add_favorite" 0 %}'.replace('0', productId);
+            
+            fetch(url, {
+                method: 'POST',
+                headers: {
+                    'X-CSRFToken': '{{ csrf_token }}',
+                    'Content-Type': 'application/json',
+                },
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    const icon = this.querySelector('i');
+                    const span = this.querySelector('span');
+                    
+                    if (isFavorite) {
+                        icon.classList.remove('fas');
+                        icon.classList.add('far');
+                        icon.style.color = 'var(--color-text-light)';
+                        span.textContent = 'Ajouter aux favoris';
+                        this.setAttribute('data-is-favorite', 'false');
+                    } else {
+                        icon.classList.remove('far');
+                        icon.classList.add('fas');
+                        icon.style.color = '#ef4444';
+                        span.textContent = 'Retirer des favoris';
+                        this.setAttribute('data-is-favorite', 'true');
+                    }
+                }
+            })
+            .catch(error => {
+                console.error('Erreur:', error);
+            });
+        });
+    }
+});
+</script>
+{% endblock %}
+

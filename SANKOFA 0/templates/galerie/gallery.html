@@ -1,0 +1,124 @@
+{% extends 'galerie/base.html' %}
+{% load static %}
+
+{% block content %}
+<!-- Hero Section -->
+<section style="background: linear-gradient(135deg, var(--color-secondary), var(--color-secondary-dark)); color: white; padding: 4rem 0;">
+    <div class="container">
+        <div class="text-center">
+            <h1 class="section-title" style="color: var(--color-primary);">Notre Galerie</h1>
+            <p class="section-subtitle" style="color: rgba(255,255,255,0.9);">
+                Explorez notre collection complète d'artisanat traditionnel ivoirien
+            </p>
+        </div>
+    </div>
+</section>
+
+<!-- Filter and View Controls -->
+<section style="background-color: var(--color-bg-light); border-bottom: 1px solid var(--color-border); position: sticky; top: 4rem; z-index: 40; padding: 1.5rem 0;">
+    <div class="container">
+        <div style="display: flex; flex-direction: column; gap: 1rem;">
+            <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 0.75rem;">
+                <i class="fas fa-filter" style="color: var(--color-text);"></i>
+                <span style="font-size: 0.875rem; color: var(--color-text-light);">Catégories:</span>
+                <a href="{% url 'galerie:gallery' %}" class="badge {% if selected_category == 'Tous' %}badge-primary{% endif %}" 
+                   style="{% if selected_category == 'Tous' %}background-color: var(--color-primary); color: white;{% else %}background-color: white; border: 1px solid var(--color-border);{% endif %} padding: 0.375rem 1rem; text-decoration: none;">
+                    Tous
+                </a>
+                {% for category in categories %}
+                    <a href="{% url 'galerie:gallery' %}?category={{ category.name }}" 
+                       class="badge {% if selected_category == category.name %}badge-primary{% endif %}"
+                       style="{% if selected_category == category.name %}background-color: var(--color-primary); color: white;{% else %}background-color: white; border: 1px solid var(--color-border);{% endif %} padding: 0.375rem 1rem; text-decoration: none;">
+                        {{ category.name }}
+                    </a>
+                {% endfor %}
+            </div>
+            
+            <div style="font-size: 0.875rem; color: var(--color-text-light);">
+                {{ products.count }} {% if products.count == 1 %}produit trouvé{% else %}produits trouvés{% endif %}
+                {% if selected_category != 'Tous' %} dans "{{ selected_category }}"{% endif %}
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Products -->
+<section class="section">
+    <div class="container">
+        {% if products %}
+            <div class="grid {% if view_mode == 'grid' %}grid-4{% else %}grid-1{% endif %}">
+                {% for product in products %}
+                    {% if view_mode == 'grid' %}
+                        <div class="product-card" onclick="window.location.href='{% url 'galerie:product_detail' product.slug %}'">
+                            <div class="product-image-wrapper">
+                                <img src="{{ product.get_image }}" alt="{{ product.name }}" class="product-image">
+                                <div class="product-badge">
+                                    <span class="badge badge-warning">{{ product.category.name }}</span>
+                                </div>
+                                {% if not product.availability %}
+                                    <div class="product-unavailable">
+                                        <span class="badge" style="background-color: #ef4444; color: white;">Épuisé</span>
+                                    </div>
+                                {% endif %}
+                            </div>
+                            <div class="product-info">
+                                <h3 class="product-name">{{ product.name }}</h3>
+                                <p class="product-description">{{ product.description }}</p>
+                                <div class="product-price">{{ product.price|floatformat:0 }} XOF</div>
+                                <div class="product-actions">
+                                    <a href="{% url 'galerie:product_detail' product.slug %}" class="btn btn-primary" style="flex: 1;">
+                                        Voir détails
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    {% else %}
+                        <div class="card" style="display: grid; grid-template-columns: 200px 1fr; gap: 1rem;">
+                            <img src="{{ product.get_image }}" alt="{{ product.name }}" 
+                                 style="width: 100%; aspect-ratio: 1; object-fit: cover; border-radius: var(--radius-lg) 0 0 var(--radius-lg);">
+                            <div style="padding: 1.5rem; display: flex; flex-direction: column; justify-content: space-between;">
+                                <div>
+                                    <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 0.5rem;">
+                                        <h3 style="font-size: 1.25rem; color: var(--color-text);">{{ product.name }}</h3>
+                                        <span style="font-size: 1.125rem; color: var(--color-primary);">{{ product.price|floatformat:0 }} XOF</span>
+                                    </div>
+                                    <p style="font-size: 0.875rem; color: var(--color-text-light); margin-bottom: 0.75rem;">
+                                        {{ product.description }}
+                                    </p>
+                                    <div style="display: flex; gap: 0.5rem; margin-bottom: 1rem;">
+                                        <span class="badge badge-primary">{{ product.category.name }}</span>
+                                        {% if product.availability %}
+                                            <span class="badge" style="background-color: #10b981; color: white;">Disponible</span>
+                                        {% else %}
+                                            <span class="badge" style="background-color: #ef4444; color: white;">Rupture de stock</span>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                                <div style="display: flex; gap: 0.75rem;">
+                                    <a href="{% url 'galerie:product_detail' product.slug %}" class="btn btn-primary" style="flex: 1;">
+                                        Voir détails
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            </div>
+        {% else %}
+            <div class="text-center" style="padding: 4rem 0;">
+                <div style="width: 5rem; height: 5rem; background-color: #f3f4f6; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1rem;">
+                    <i class="fas fa-filter" style="font-size: 2.5rem; color: #9ca3af;"></i>
+                </div>
+                <h3 style="font-size: 1.25rem; color: var(--color-text); margin-bottom: 0.5rem;">Aucun produit trouvé</h3>
+                <p style="color: var(--color-text-light); margin-bottom: 1.5rem;">
+                    Essayez de sélectionner une autre catégorie
+                </p>
+                <a href="{% url 'galerie:gallery' %}" class="btn btn-outline">
+                    Voir tous les produits
+                </a>
+            </div>
+        {% endif %}
+    </div>
+</section>
+{% endblock %}
+

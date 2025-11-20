@@ -1,0 +1,82 @@
+{% extends "admin/base.html" %}
+{% load static %}
+
+{% block title %}{{ title }} | Galerie Sankofa Admin{% endblock %}
+
+{% block branding %}
+<h1 id="site-name">
+    <a href="{% url 'admin:index' %}">
+        <span style="display: inline-flex; align-items: center; gap: 0.5rem;">
+            <span style="width: 2rem; height: 2rem; background: linear-gradient(135deg, #CBA135, #B8922E); border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; color: white; font-weight: 700; font-size: 1.25rem;">S</span>
+            Galerie Sankofa
+        </span>
+    </a>
+</h1>
+{% endblock %}
+
+{% block extrastyle %}
+{{ block.super }}
+<link rel="stylesheet" type="text/css" href="{% static 'admin/css/custom_admin.css' %}">
+<style>
+    /* Amélioration supplémentaire avec couleurs douces */
+    body {
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif !important;
+        color: #2d3748 !important;
+        background-color: #f7fafc !important;
+    }
+    
+    #header {
+        background: linear-gradient(135deg, #4a5568, #2d3748) !important;
+        border-bottom: 3px solid #d4af37 !important;
+    }
+    
+    #branding h1, #branding h1 a:link, #branding h1 a:visited {
+        color: #f6e05e !important;
+        font-weight: 700 !important;
+        font-size: 1.75rem !important;
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3) !important;
+    }
+    
+    #header a:link, #header a:visited {
+        color: #fefcbf !important;
+        font-weight: 600 !important;
+    }
+    
+    #header a:hover {
+        color: #ffffff !important;
+    }
+    
+    .module h2, .module caption, .inline-group h2 {
+        background: linear-gradient(135deg, #d4af37, #c9a227) !important;
+        color: #FFFFFF !important;
+        font-weight: 700 !important;
+    }
+    
+    /* Textes dans les tableaux */
+    table th, table td {
+        color: #2d3748 !important;
+    }
+    
+    /* Liens dans les tableaux */
+    table a {
+        color: #b7791f !important;
+        font-weight: 600 !important;
+    }
+    
+    table a:hover {
+        color: #d4af37 !important;
+    }
+    
+    /* Amélioration de tous les textes pour meilleure visibilité */
+    .form-row p, .form-row div {
+        color: #4a5568 !important;
+    }
+    
+    /* Labels toujours visibles */
+    label, .required {
+        color: #2d3748 !important;
+        font-weight: 600 !important;
+    }
+</style>
+{% endblock %}
+

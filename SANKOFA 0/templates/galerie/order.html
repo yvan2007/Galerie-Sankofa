@@ -1,0 +1,217 @@
+{% extends 'galerie/base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container" style="padding: 2rem 0;">
+    <a href="{% url 'galerie:home' %}" class="btn btn-outline mb-4">
+        <i class="fas fa-arrow-left"></i> Retour
+    </a>
+
+    <div class="card" style="max-width: 42rem; margin: 0 auto;">
+        <div class="card-content">
+            <h1 style="font-size: 2rem; color: var(--color-text); margin-bottom: 0.5rem;">Passer une commande</h1>
+            <p style="color: var(--color-text-light); margin-bottom: 2rem;">
+                Remplissez le formulaire ci-dessous et nous vous contacterons pour finaliser votre commande.
+            </p>
+            
+            {% if user.is_authenticated %}
+            <div class="alert alert-info" style="margin-bottom: 1.5rem; padding: 1rem; background-color: rgba(203, 161, 53, 0.1); border-left: 4px solid var(--color-primary); border-radius: 0.5rem;">
+                <p style="margin: 0; font-size: 0.875rem; color: var(--color-text);">
+                    <i class="fas fa-info-circle" style="color: var(--color-primary);"></i>
+                    <strong>Vos informations</strong> ont été pré-remplies depuis votre profil. Vous pouvez les modifier si nécessaire.
+                </p>
+            </div>
+            {% endif %}
+            
+            <form method="post" id="orderForm">
+                {% csrf_token %}
+                {% if product %}
+                    <input type="hidden" name="product_id" value="{{ product.id }}" id="id_product_id">
+                {% endif %}
+                {{ form.product_id }}
+                <div class="form-group">
+                    <label class="form-label">{{ form.customer_name.label }} *</label>
+                    {{ form.customer_name }}
+                    {% if form.customer_name.errors %}
+                        <div class="error-message" style="color: #ef4444; font-size: 0.875rem; margin-top: 0.25rem;">
+                            {{ form.customer_name.errors }}
+                        </div>
+                    {% endif %}
+                </div>
+                <div class="form-group">
+                    <label class="form-label">{{ form.customer_phone.label }} *</label>
+                    {{ form.customer_phone }}
+                    {% if form.customer_phone.errors %}
+                        <div class="error-message" style="color: #ef4444; font-size: 0.875rem; margin-top: 0.25rem;">
+                            {{ form.customer_phone.errors }}
+                        </div>
+                    {% endif %}
+                    <p style="font-size: 0.875rem; color: var(--color-text-light); margin-top: 0.25rem;">
+                        Sélectionnez votre code pays et entrez votre numéro
+                    </p>
+                </div>
+                {% if product %}
+                    <div class="form-group">
+                        <label class="form-label">Produit sélectionné</label>
+                        <div style="padding: 1rem; background-color: #f9fafb; border: 2px solid var(--color-primary); border-radius: 0.5rem; display: flex; align-items: center; gap: 1rem;">
+                            {% if product.get_image %}
+                                <img src="{{ product.get_image }}" alt="{{ product.name }}" style="width: 60px; height: 60px; object-fit: cover; border-radius: 0.375rem;">
+                            {% endif %}
+                            <div style="flex: 1;">
+                                <strong style="color: var(--color-text); display: block; margin-bottom: 0.25rem;">{{ product.name }}</strong>
+                                <span style="color: var(--color-primary); font-weight: 600; font-size: 1.125rem;">{{ product.price|floatformat:0 }} XOF</span>
+                                <div style="margin-top: 0.5rem; display: flex; align-items: center; gap: 0.5rem;">
+                                    {% if product.availability and product.stock > 0 %}
+                                        <i class="fas fa-check-circle" style="color: #10b981;"></i>
+                                        <span style="color: #065f46; font-size: 0.875rem;">En stock ({{ product.stock }} disponible{{ product.stock|pluralize:"s" }})</span>
+                                    {% elif product.availability %}
+                                        <i class="fas fa-exclamation-circle" style="color: #f59e0b;"></i>
+                                        <span style="color: #92400e; font-size: 0.875rem;">Disponible mais stock limité</span>
+                                    {% else %}
+                                        <i class="fas fa-times-circle" style="color: #ef4444;"></i>
+                                        <span style="color: #991b1b; font-size: 0.875rem;">Épuisé</span>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endif %}
+                <div class="form-group">
+                    <label class="form-label">{{ form.quantity.label }} *</label>
+                    {{ form.quantity }}
+                    {% if form.quantity.errors %}
+                        <div class="error-message" style="color: #ef4444; font-size: 0.875rem; margin-top: 0.25rem;">
+                            {{ form.quantity.errors }}
+                        </div>
+                    {% endif %}
+                    {% if product %}
+                        <p style="font-size: 0.875rem; color: var(--color-text-light); margin-top: 0.25rem;">
+                            Stock disponible : <strong id="stock-display">{{ product.stock }}</strong> unité{{ product.stock|pluralize:"s" }}
+                        </p>
+                        <div id="stock-warning" style="display: none; margin-top: 0.5rem; padding: 0.75rem; background-color: #fef3c7; border-left: 4px solid #f59e0b; border-radius: 0.375rem;">
+                            <i class="fas fa-exclamation-triangle" style="color: #f59e0b;"></i>
+                            <span style="color: #92400e; font-size: 0.875rem; margin-left: 0.5rem;">
+                                La quantité demandée dépasse le stock disponible.
+                            </span>
+                        </div>
+                    {% endif %}
+                </div>
+                <div class="form-group">
+                    <label class="form-label">{{ form.customer_address.label }} *</label>
+                    {{ form.customer_address }}
+                    {% if form.customer_address.errors %}
+                        <div class="error-message" style="color: #ef4444; font-size: 0.875rem; margin-top: 0.25rem;">
+                            {{ form.customer_address.errors }}
+                        </div>
+                    {% endif %}
+                </div>
+                <div class="form-group">
+                    <label class="form-label">{{ form.notes.label }}</label>
+                    {{ form.notes }}
+                    {% if form.notes.errors %}
+                        <div class="error-message" style="color: #ef4444; font-size: 0.875rem; margin-top: 0.25rem;">
+                            {{ form.notes.errors }}
+                        </div>
+                    {% endif %}
+                </div>
+                
+                <div class="alert alert-info" style="margin-bottom: 1.5rem; padding: 1rem; background-color: rgba(59, 130, 246, 0.1); border-left: 4px solid #3b82f6; border-radius: 0.5rem;">
+                    <p style="font-size: 0.875rem; margin: 0; color: var(--color-text);">
+                        <i class="fas fa-info-circle" style="color: #3b82f6;"></i>
+                        <strong>Note :</strong> Un membre de notre équipe vous contactera dans les 24h pour 
+                        confirmer votre commande et organiser la livraison.
+                    </p>
+                </div>
+                
+                <button type="submit" class="btn btn-primary btn-lg" style="width: 100%;">
+                    <i class="fas fa-shopping-cart"></i> Confirmer la commande
+                </button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<style>
+    .country-code-select {
+        border-radius: 0.5rem 0 0 0.5rem !important;
+        border-right: none !important;
+        background-color: #f9fafb !important;
+        font-weight: 500 !important;
+        cursor: pointer !important;
+        transition: all 0.2s ease !important;
+    }
+    .country-code-select:hover {
+        background-color: #f3f4f6 !important;
+    }
+    .phone-number-input {
+        border-radius: 0 0.5rem 0.5rem 0 !important;
+        border-left: 1px solid var(--color-border) !important;
+    }
+    .country-code-select:focus,
+    .phone-number-input:focus {
+        border-color: var(--color-primary) !important;
+        box-shadow: 0 0 0 3px rgba(203, 161, 53, 0.1) !important;
+        outline: none !important;
+    }
+    /* Style pour le conteneur du téléphone */
+    .form-group:has(.country-code-select) {
+        position: relative;
+    }
+    .form-group:has(.country-code-select)::before {
+        content: '📞';
+        position: absolute;
+        left: 1rem;
+        top: 2.5rem;
+        font-size: 1.125rem;
+        pointer-events: none;
+        z-index: 1;
+    }
+    .form-group:has(.country-code-select) .country-code-select {
+        padding-left: 2.5rem !important;
+    }
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const quantityInput = document.getElementById('id_quantity');
+    const stockDisplay = document.getElementById('stock-display');
+    const stockWarning = document.getElementById('stock-warning');
+    
+    if (quantityInput && stockDisplay && stockWarning) {
+        const maxStock = parseInt(stockDisplay.textContent);
+        
+        quantityInput.addEventListener('input', function() {
+            const quantity = parseInt(this.value) || 0;
+            
+            if (quantity > maxStock) {
+                stockWarning.style.display = 'block';
+                quantityInput.setCustomValidity('La quantité ne peut pas dépasser le stock disponible (' + maxStock + ').');
+            } else {
+                stockWarning.style.display = 'none';
+                quantityInput.setCustomValidity('');
+            }
+        });
+        
+        quantityInput.setAttribute('max', maxStock);
+    }
+    
+    // Validation du formulaire avant soumission
+    const orderForm = document.getElementById('orderForm');
+    if (orderForm) {
+        orderForm.addEventListener('submit', function(e) {
+            if (quantityInput && stockDisplay) {
+                const quantity = parseInt(quantityInput.value) || 0;
+                const maxStock = parseInt(stockDisplay.textContent);
+                
+                if (quantity > maxStock) {
+                    e.preventDefault();
+                    alert('La quantité demandée (' + quantity + ') dépasse le stock disponible (' + maxStock + '). Veuillez ajuster la quantité.');
+                    quantityInput.focus();
+                    return false;
+                }
+            }
+        });
+    }
+});
+</script>
+{% endblock %}

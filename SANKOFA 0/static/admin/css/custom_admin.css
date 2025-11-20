@@ -1,0 +1,907 @@
+/* Personnalisation de l'interface admin Galerie Sankofa - Version douce et bien organisée */
+
+/* Polices très visibles et douces */
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif !important;
+    font-size: 15px !important;
+    line-height: 1.7 !important;
+    color: #2d3748 !important;
+    background-color: #f7fafc !important;
+}
+
+/* Header personnalisé avec couleurs douces */
+#header {
+    background: linear-gradient(135deg, #4a5568, #2d3748) !important;
+    border-bottom: 3px solid #d4af37 !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important;
+    padding: 16px 20px !important;
+}
+
+#header h1 {
+    color: #f6e05e !important;
+    font-weight: 700 !important;
+    font-size: 1.75rem !important;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3) !important;
+    letter-spacing: 0.5px !important;
+}
+
+#header a:link, #header a:visited {
+    color: #fefcbf !important;
+    font-weight: 600 !important;
+    font-size: 14px !important;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2) !important;
+    padding: 8px 12px !important;
+    border-radius: 6px !important;
+    transition: all 0.2s ease !important;
+}
+
+#header a:hover {
+    color: #ffffff !important;
+    background-color: rgba(212, 175, 55, 0.2) !important;
+}
+
+/* Logo personnalisé */
+#branding h1, #branding h1 a:link, #branding h1 a:visited {
+    color: #f6e05e !important;
+    font-weight: 700 !important;
+    font-size: 1.75rem !important;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3) !important;
+}
+
+/* Boutons personnalisés avec couleurs douces et bien placés */
+.button, input[type=submit], input[type=button], .submit-row input, a.button {
+    background: linear-gradient(135deg, #d4af37, #c9a227) !important;
+    border: none !important;
+    color: #ffffff !important;
+    font-weight: 600 !important;
+    font-size: 14px !important;
+    border-radius: 8px !important;
+    padding: 12px 24px !important;
+    transition: all 0.3s ease !important;
+    box-shadow: 0 3px 8px rgba(212, 175, 55, 0.25) !important;
+    cursor: pointer !important;
+    display: inline-block !important;
+    text-align: center !important;
+    min-width: 120px !important;
+}
+
+.button:hover, input[type=submit]:hover, input[type=button]:hover, a.button:hover {
+    background: linear-gradient(135deg, #c9a227, #b8941f) !important;
+    transform: translateY(-2px) !important;
+    box-shadow: 0 5px 15px rgba(212, 175, 55, 0.35) !important;
+    color: #ffffff !important;
+}
+
+.button:active {
+    transform: translateY(0) !important;
+    box-shadow: 0 2px 5px rgba(212, 175, 55, 0.25) !important;
+}
+
+.button.default, input[type=submit].default, .submit-row input.default {
+    background: linear-gradient(135deg, #48bb78, #38a169) !important;
+    color: #ffffff !important;
+    box-shadow: 0 3px 8px rgba(72, 187, 120, 0.25) !important;
+}
+
+.button.default:hover {
+    background: linear-gradient(135deg, #38a169, #2f855a) !important;
+    box-shadow: 0 5px 15px rgba(72, 187, 120, 0.35) !important;
+}
+
+/* Zone de boutons bien organisée et alignée */
+.submit-row {
+    background-color: #ffffff !important;
+    border-top: 2px solid #e2e8f0 !important;
+    padding: 20px 30px !important;
+    margin: 30px -30px -30px -30px !important;
+    display: flex !important;
+    gap: 12px !important;
+    align-items: center !important;
+    justify-content: flex-end !important;
+    border-radius: 0 0 8px 8px !important;
+    clear: both !important;
+}
+
+.submit-row input[type=submit] {
+    order: 2 !important;
+}
+
+.submit-row input[type=button],
+.submit-row a.button {
+    order: 1 !important;
+}
+
+/* Pour la page de login, centrer les boutons */
+body.login .submit-row {
+    justify-content: center !important;
+}
+
+.object-tools {
+    margin-bottom: 20px !important;
+    display: flex !important;
+    gap: 12px !important;
+    justify-content: flex-end !important;
+    flex-wrap: wrap !important;
+    align-items: center !important;
+}
+
+.object-tools a {
+    background: linear-gradient(135deg, #d4af37, #c9a227) !important;
+    color: #ffffff !important;
+    padding: 12px 20px !important;
+    border-radius: 8px !important;
+    font-weight: 600 !important;
+    font-size: 14px !important;
+    box-shadow: 0 3px 8px rgba(212, 175, 55, 0.25) !important;
+    text-decoration: none !important;
+    transition: all 0.3s ease !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+    white-space: nowrap !important;
+}
+
+.object-tools a:hover {
+    background: linear-gradient(135deg, #c9a227, #b8941f) !important;
+    color: #ffffff !important;
+    transform: translateY(-2px) !important;
+    box-shadow: 0 5px 15px rgba(212, 175, 55, 0.35) !important;
+}
+
+.object-tools a.addlink {
+    background: linear-gradient(135deg, #48bb78, #38a169) !important;
+    box-shadow: 0 3px 8px rgba(72, 187, 120, 0.25) !important;
+}
+
+.object-tools a.addlink:hover {
+    background: linear-gradient(135deg, #38a169, #2f855a) !important;
+    box-shadow: 0 5px 15px rgba(72, 187, 120, 0.35) !important;
+}
+
+/* Liens avec couleurs douces */
+a:link, a:visited {
+    color: #b7791f !important;
+    font-weight: 500 !important;
+    text-decoration: none !important;
+    transition: color 0.2s ease !important;
+}
+
+a:hover {
+    color: #d4af37 !important;
+    text-decoration: underline !important;
+}
+
+/* Tableaux avec couleurs douces et bien organisés */
+#result_list {
+    border-radius: 10px !important;
+    overflow: hidden !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08) !important;
+    background-color: #ffffff !important;
+    border: 1px solid #e2e8f0 !important;
+    width: 100% !important;
+    table-layout: auto !important;
+}
+
+#result_list thead th {
+    background: linear-gradient(135deg, #4a5568, #2d3748) !important;
+    color: #f6e05e !important;
+    font-weight: 700 !important;
+    font-size: 14px !important;
+    padding: 16px 14px !important;
+    border-bottom: 2px solid #d4af37 !important;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2) !important;
+    letter-spacing: 0.3px !important;
+    text-align: left !important;
+}
+
+#result_list tbody tr {
+    border-bottom: 1px solid #f1f5f9 !important;
+    transition: background-color 0.2s ease !important;
+}
+
+#result_list tbody tr:hover {
+    background-color: #fef9e7 !important;
+}
+
+#result_list tbody tr:nth-child(even) {
+    background-color: #fafafa !important;
+}
+
+#result_list tbody tr:nth-child(even):hover {
+    background-color: #fef9e7 !important;
+}
+
+#result_list tbody td {
+    padding: 16px 14px !important;
+    color: #2d3748 !important;
+    font-size: 14px !important;
+    font-weight: 400 !important;
+    line-height: 1.6 !important;
+    vertical-align: middle !important;
+}
+
+#result_list tbody td a {
+    color: #b7791f !important;
+    font-weight: 600 !important;
+    padding: 4px 8px !important;
+    border-radius: 4px !important;
+    transition: all 0.2s ease !important;
+    display: inline-block !important;
+}
+
+#result_list tbody td a:hover {
+    color: #d4af37 !important;
+    background-color: #fef9e7 !important;
+    text-decoration: none !important;
+}
+
+/* Formulaires avec couleurs douces et bien alignés */
+.form-row {
+    margin-bottom: 24px !important;
+    padding: 0 !important;
+    background-color: transparent !important;
+    border: none !important;
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 8px !important;
+}
+
+.form-row label {
+    color: #2d3748 !important;
+    font-weight: 600 !important;
+    font-size: 14px !important;
+    margin-bottom: 0 !important;
+    display: block !important;
+    letter-spacing: 0.2px !important;
+    width: 100% !important;
+}
+
+label {
+    color: #2d3748 !important;
+    font-weight: 600 !important;
+    font-size: 14px !important;
+    display: block !important;
+    margin-bottom: 8px !important;
+}
+
+input[type=text], input[type=email], input[type=password], input[type=number], 
+input[type=url], textarea, select {
+    border: 2px solid #cbd5e0 !important;
+    border-radius: 8px !important;
+    padding: 12px 16px !important;
+    transition: all 0.2s ease !important;
+    font-size: 14px !important;
+    color: #2d3748 !important;
+    background-color: #ffffff !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+    display: block !important;
+}
+
+input[type=text]:focus, input[type=email]:focus, input[type=password]:focus, 
+input[type=number]:focus, input[type=url]:focus, textarea:focus, select:focus {
+    border-color: #d4af37 !important;
+    box-shadow: 0 0 0 4px rgba(212, 175, 55, 0.1) !important;
+    outline: none !important;
+    background-color: #ffffff !important;
+}
+
+textarea {
+    font-size: 14px !important;
+    color: #2d3748 !important;
+    line-height: 1.7 !important;
+    resize: vertical !important;
+    min-height: 120px !important;
+}
+
+/* Fieldsets avec couleurs douces et bien organisés */
+fieldset {
+    border: 2px solid #e2e8f0 !important;
+    border-radius: 10px !important;
+    padding: 24px !important;
+    margin-bottom: 24px !important;
+    background-color: #ffffff !important;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04) !important;
+}
+
+fieldset legend {
+    color: #2d3748 !important;
+    font-weight: 700 !important;
+    font-size: 16px !important;
+    padding: 0 16px !important;
+    background-color: #ffffff !important;
+    letter-spacing: 0.3px !important;
+    margin-left: -8px !important;
+}
+
+/* Messages avec couleurs douces */
+.messagelist {
+    margin: 20px 0 !important;
+    list-style: none !important;
+    padding: 0 !important;
+}
+
+.messagelist li {
+    border-radius: 8px !important;
+    padding: 16px 20px !important;
+    margin-bottom: 12px !important;
+    font-size: 14px !important;
+    font-weight: 500 !important;
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.08) !important;
+    border-left: 4px solid !important;
+    list-style: none !important;
+}
+
+.messagelist li.success {
+    background-color: #f0fff4 !important;
+    border-left-color: #48bb78 !important;
+    color: #22543d !important;
+}
+
+.messagelist li.error {
+    background-color: #fff5f5 !important;
+    border-left-color: #f56565 !important;
+    color: #742a2a !important;
+}
+
+.messagelist li.warning {
+    background-color: #fffaf0 !important;
+    border-left-color: #ed8936 !important;
+    color: #7c2d12 !important;
+}
+
+.messagelist li.info {
+    background-color: #ebf8ff !important;
+    border-left-color: #4299e1 !important;
+    color: #2c5282 !important;
+}
+
+/* Sidebar avec couleurs douces */
+#content-related {
+    background-color: #ffffff !important;
+    border-radius: 10px !important;
+    border: 2px solid #e2e8f0 !important;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04) !important;
+}
+
+.module {
+    background-color: #ffffff !important;
+    border-radius: 10px !important;
+    margin-bottom: 20px !important;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04) !important;
+    border: 1px solid #e2e8f0 !important;
+    overflow: hidden !important;
+}
+
+.module h2 {
+    background: linear-gradient(135deg, #d4af37, #c9a227) !important;
+    color: #ffffff !important;
+    border-radius: 0 !important;
+    padding: 16px !important;
+    font-weight: 700 !important;
+    font-size: 14px !important;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2) !important;
+    letter-spacing: 0.3px !important;
+    margin: 0 !important;
+}
+
+.module h3 {
+    color: #2d3748 !important;
+    font-weight: 600 !important;
+    font-size: 14px !important;
+    padding: 14px 16px !important;
+    background-color: #f7fafc !important;
+    border-bottom: 1px solid #e2e8f0 !important;
+    margin: 0 !important;
+}
+
+.module ul {
+    padding: 12px 16px !important;
+    margin: 0 !important;
+    list-style: none !important;
+}
+
+.module ul li {
+    padding: 10px 0 !important;
+    border-bottom: 1px solid #f1f5f9 !important;
+}
+
+.module ul li:last-child {
+    border-bottom: none !important;
+}
+
+.module ul li a {
+    color: #b7791f !important;
+    font-weight: 500 !important;
+    font-size: 14px !important;
+    padding: 4px 8px !important;
+    border-radius: 4px !important;
+    transition: all 0.2s ease !important;
+    display: inline-block !important;
+}
+
+.module ul li a:hover {
+    color: #d4af37 !important;
+    background-color: #fef9e7 !important;
+    text-decoration: none !important;
+}
+
+/* Pagination avec couleurs douces */
+.paginator {
+    margin-top: 24px !important;
+    padding: 20px 0 !important;
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    gap: 8px !important;
+    flex-wrap: wrap !important;
+}
+
+.paginator a, .paginator span {
+    padding: 10px 16px !important;
+    border-radius: 8px !important;
+    font-size: 14px !important;
+    font-weight: 500 !important;
+    display: inline-block !important;
+    transition: all 0.2s ease !important;
+}
+
+.paginator a {
+    background-color: #f7fafc !important;
+    color: #b7791f !important;
+    border: 2px solid #e2e8f0 !important;
+    text-decoration: none !important;
+}
+
+.paginator a:hover {
+    background-color: #d4af37 !important;
+    color: #ffffff !important;
+    border-color: #d4af37 !important;
+    transform: translateY(-2px) !important;
+    box-shadow: 0 3px 8px rgba(212, 175, 55, 0.25) !important;
+}
+
+.paginator .this-page {
+    background-color: #d4af37 !important;
+    color: #ffffff !important;
+    font-weight: 700 !important;
+    border: 2px solid #d4af37 !important;
+}
+
+/* Actions avec couleurs douces et bien organisées */
+.actions {
+    background-color: #ffffff !important;
+    border: 2px solid #e2e8f0 !important;
+    border-radius: 10px !important;
+    padding: 20px !important;
+    margin-bottom: 24px !important;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04) !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 16px !important;
+    flex-wrap: wrap !important;
+}
+
+.actions label {
+    color: #2d3748 !important;
+    font-weight: 600 !important;
+    font-size: 14px !important;
+    margin: 0 !important;
+    white-space: nowrap !important;
+}
+
+.actions select {
+    border-color: #cbd5e0 !important;
+    color: #2d3748 !important;
+    font-size: 14px !important;
+    padding: 10px 14px !important;
+    border-radius: 8px !important;
+    background-color: #ffffff !important;
+    min-width: 200px !important;
+    flex: 1 !important;
+    max-width: 300px !important;
+}
+
+.actions select:focus {
+    border-color: #d4af37 !important;
+    box-shadow: 0 0 0 4px rgba(212, 175, 55, 0.1) !important;
+}
+
+.actions button {
+    margin-left: auto !important;
+    flex-shrink: 0 !important;
+}
+
+/* Titres avec couleurs douces */
+h1, h2, h3, h4, h5, h6 {
+    color: #2d3748 !important;
+    font-weight: 700 !important;
+    letter-spacing: 0.3px !important;
+    margin-top: 0 !important;
+}
+
+h1 {
+    font-size: 26px !important;
+    margin-bottom: 24px !important;
+}
+
+h2 {
+    font-size: 22px !important;
+    margin-bottom: 20px !important;
+}
+
+h3 {
+    font-size: 18px !important;
+    margin-bottom: 16px !important;
+}
+
+/* Textes généraux */
+p {
+    color: #4a5568 !important;
+    font-size: 14px !important;
+    line-height: 1.7 !important;
+    margin: 0 0 12px 0 !important;
+}
+
+/* Help text */
+.help {
+    color: #718096 !important;
+    font-size: 13px !important;
+    font-weight: 400 !important;
+    margin-top: 8px !important;
+    padding: 12px !important;
+    background-color: #f7fafc !important;
+    border-radius: 6px !important;
+    border-left: 3px solid #cbd5e0 !important;
+    display: block !important;
+}
+
+.help ul {
+    margin-top: 8px !important;
+    padding-left: 20px !important;
+    margin-bottom: 0 !important;
+}
+
+.help li {
+    color: #718096 !important;
+    margin: 4px 0 !important;
+}
+
+/* Checkboxes et radio buttons */
+input[type=checkbox], input[type=radio] {
+    width: 20px !important;
+    height: 20px !important;
+    cursor: pointer !important;
+    accent-color: #d4af37 !important;
+    margin-right: 8px !important;
+    vertical-align: middle !important;
+}
+
+label input[type=checkbox],
+label input[type=radio] {
+    margin-right: 8px !important;
+}
+
+/* Erreurs de formulaire */
+.errorlist {
+    color: #c53030 !important;
+    font-weight: 600 !important;
+    font-size: 13px !important;
+    background-color: #fff5f5 !important;
+    padding: 12px 16px !important;
+    border-radius: 8px !important;
+    border-left: 4px solid #c53030 !important;
+    margin-top: 8px !important;
+    margin-bottom: 12px !important;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05) !important;
+    list-style: none !important;
+    padding-left: 16px !important;
+}
+
+.errorlist li {
+    color: #c53030 !important;
+    list-style: none !important;
+    margin: 4px 0 !important;
+}
+
+/* Tableau de bord principal */
+.dashboard {
+    background-color: #f7fafc !important;
+}
+
+.dashboard .module {
+    background-color: #ffffff !important;
+    border: 1px solid #e2e8f0 !important;
+}
+
+.dashboard .module table {
+    width: 100% !important;
+    border-collapse: collapse !important;
+}
+
+.dashboard .module table th {
+    background-color: #f7fafc !important;
+    color: #2d3748 !important;
+    font-weight: 700 !important;
+    padding: 14px !important;
+    border-bottom: 2px solid #e2e8f0 !important;
+    text-align: left !important;
+}
+
+.dashboard .module table td {
+    padding: 14px !important;
+    color: #4a5568 !important;
+    border-bottom: 1px solid #f1f5f9 !important;
+}
+
+.dashboard .module table td a {
+    color: #b7791f !important;
+    font-weight: 600 !important;
+    padding: 4px 8px !important;
+    border-radius: 4px !important;
+    transition: all 0.2s ease !important;
+}
+
+.dashboard .module table td a:hover {
+    color: #d4af37 !important;
+    background-color: #fef9e7 !important;
+    text-decoration: none !important;
+}
+
+/* Amélioration de la visibilité générale */
+#content {
+    background-color: #f7fafc !important;
+    padding: 24px !important;
+}
+
+#content-main {
+    background-color: #ffffff !important;
+    padding: 30px !important;
+    border-radius: 12px !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06) !important;
+    border: 1px solid #e2e8f0 !important;
+    position: relative !important;
+}
+
+/* Amélioration des filtres */
+#changelist-filter {
+    background-color: #ffffff !important;
+    border: 2px solid #e2e8f0 !important;
+    border-radius: 10px !important;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04) !important;
+}
+
+#changelist-filter h2 {
+    background: linear-gradient(135deg, #d4af37, #c9a227) !important;
+    color: #ffffff !important;
+    font-weight: 700 !important;
+    font-size: 14px !important;
+    padding: 14px 16px !important;
+    border-radius: 0 !important;
+    margin: 0 !important;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2) !important;
+}
+
+#changelist-filter h3 {
+    color: #2d3748 !important;
+    font-weight: 600 !important;
+    font-size: 13px !important;
+    padding: 12px 16px !important;
+    background-color: #f7fafc !important;
+    border-bottom: 1px solid #e2e8f0 !important;
+    margin: 0 !important;
+}
+
+#changelist-filter li {
+    padding: 10px 16px !important;
+    border-bottom: 1px solid #f1f5f9 !important;
+}
+
+#changelist-filter li:last-child {
+    border-bottom: none !important;
+}
+
+#changelist-filter li a {
+    color: #4a5568 !important;
+    font-size: 14px !important;
+    font-weight: 400 !important;
+    padding: 4px 8px !important;
+    border-radius: 4px !important;
+    transition: all 0.2s ease !important;
+    display: inline-block !important;
+}
+
+#changelist-filter li.selected a {
+    color: #b7791f !important;
+    font-weight: 600 !important;
+    background-color: #fef9e7 !important;
+}
+
+#changelist-filter li a:hover {
+    color: #d4af37 !important;
+    background-color: #fef9e7 !important;
+    text-decoration: none !important;
+}
+
+/* Page de login admin - amélioration */
+.login #header {
+    padding: 20px !important;
+    text-align: center !important;
+}
+
+.login #content {
+    padding: 40px 20px !important;
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    min-height: calc(100vh - 200px) !important;
+}
+
+.login #content-main {
+    max-width: 500px !important;
+    width: 100% !important;
+    margin: 0 auto !important;
+}
+
+.login .form-row {
+    margin-bottom: 20px !important;
+}
+
+.login .form-row label {
+    display: block !important;
+    margin-bottom: 8px !important;
+    width: 100% !important;
+}
+
+.login .form-row input {
+    width: 100% !important;
+    display: block !important;
+}
+
+.login .submit-row {
+    margin: 20px 0 0 0 !important;
+    padding: 20px 0 !important;
+    border-top: 2px solid #e2e8f0 !important;
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    gap: 12px !important;
+}
+
+.login .submit-row input {
+    width: auto !important;
+    min-width: 200px !important;
+    padding: 14px 32px !important;
+    font-size: 15px !important;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    #header {
+        padding: 12px 16px !important;
+    }
+    
+    #result_list {
+        font-size: 13px !important;
+    }
+    
+    #result_list thead th {
+        font-size: 13px !important;
+        padding: 12px 10px !important;
+    }
+    
+    #result_list tbody td {
+        font-size: 13px !important;
+        padding: 12px 10px !important;
+    }
+    
+    .submit-row {
+        flex-direction: column !important;
+        align-items: stretch !important;
+    }
+    
+    .submit-row input {
+        width: 100% !important;
+    }
+    
+    .object-tools {
+        flex-direction: column !important;
+    }
+    
+    .object-tools a {
+        width: 100% !important;
+        justify-content: center !important;
+    }
+    
+    .form-row {
+        width: 100% !important;
+    }
+    
+    input[type=text], input[type=email], input[type=password], 
+    input[type=number], input[type=url], textarea, select {
+        width: 100% !important;
+    }
+}
+
+/* Amélioration de la zone de recherche */
+#changelist-search {
+    background-color: #ffffff !important;
+    border: 2px solid #e2e8f0 !important;
+    border-radius: 8px !important;
+    padding: 16px !important;
+    margin-bottom: 20px !important;
+}
+
+#changelist-search label {
+    color: #2d3748 !important;
+    font-weight: 600 !important;
+    margin-bottom: 8px !important;
+    display: block !important;
+}
+
+#changelist-search input {
+    width: 100% !important;
+    max-width: 400px !important;
+    display: block !important;
+}
+
+/* Alignement des éléments de formulaire */
+.aligned label {
+    float: left !important;
+    width: 160px !important;
+    padding: 12px 10px 0 0 !important;
+    text-align: right !important;
+    font-weight: 600 !important;
+}
+
+.aligned .form-row input,
+.aligned .form-row textarea,
+.aligned .form-row select {
+    margin-left: 180px !important;
+    width: calc(100% - 180px) !important;
+    max-width: 600px !important;
+}
+
+.aligned .form-row .help {
+    margin-left: 180px !important;
+    width: calc(100% - 180px) !important;
+    max-width: 600px !important;
+}
+
+.aligned .form-row .errorlist {
+    margin-left: 180px !important;
+    width: calc(100% - 180px) !important;
+    max-width: 600px !important;
+}
+
+/* Amélioration des inline forms */
+.inline-group {
+    margin-bottom: 24px !important;
+}
+
+.inline-group .form-row {
+    padding: 12px !important;
+    background-color: #fafafa !important;
+    border-radius: 6px !important;
+    margin-bottom: 12px !important;
+}
+
+/* Amélioration des select multiple */
+select[multiple] {
+    min-height: 150px !important;
+}
+
+/* Amélioration des file inputs */
+input[type=file] {
+    padding: 8px !important;
+    border: 2px dashed #cbd5e0 !important;
+    border-radius: 8px !important;
+    background-color: #f7fafc !important;
+    cursor: pointer !important;
+}
+
+input[type=file]:hover {
+    border-color: #d4af37 !important;
+    background-color: #fef9e7 !important;
+}

@@ -1,0 +1,22 @@
+/* ============================================
+   CSS VARIABLES
+   ============================================ */
+
+:root {
+    --color-primary: #CBA135;
+    --color-primary-dark: #B8922E;
+    --color-secondary: #3E2C1B;
+    --color-secondary-dark: #2A1F14;
+    --color-bg: #FFFFFF;
+    --color-bg-light: #FFFFF0;
+    --color-text: #3E2C1B;
+    --color-text-light: #71717a;
+    --color-border: rgba(203, 161, 53, 0.2);
+    --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+    --radius: 0.625rem;
+    --radius-lg: 1rem;
+    --transition: all 0.3s ease;
+}
+

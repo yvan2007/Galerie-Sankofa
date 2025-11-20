@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bienvenue sur Galerie Sankofa</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            color: #3E2C1B;
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #FFFFFF;
+            padding: 0;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .header {
+            background: linear-gradient(135deg, #3E2C1B, #2A1F14);
+            padding: 2.5rem 2rem;
+            text-align: center;
+        }
+        .logo {
+            width: 5rem;
+            height: 5rem;
+            background: linear-gradient(135deg, #CBA135, #B8922E);
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 2.5rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            box-shadow: 0 4px 12px rgba(203, 161, 53, 0.4);
+        }
+        .header h1 {
+            color: #CBA135;
+            margin: 0;
+            font-size: 1.875rem;
+            font-weight: 600;
+        }
+        .content {
+            padding: 2.5rem;
+        }
+        .info-box {
+            background-color: #FFFFF0;
+            border-left: 4px solid #CBA135;
+            padding: 1.25rem;
+            border-radius: 0.5rem;
+            margin: 1.5rem 0;
+        }
+        .info-box strong {
+            color: #3E2C1B;
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+        .info-box ul {
+            margin: 0.5rem 0 0 0;
+            padding-left: 1.5rem;
+        }
+        .info-box li {
+            margin: 0.5rem 0;
+            color: #3E2C1B;
+        }
+        .security-box {
+            background-color: #fef3c7;
+            border: 2px solid #CBA135;
+            border-radius: 0.5rem;
+            padding: 1.25rem;
+            margin: 1.5rem 0;
+        }
+        .security-box strong {
+            color: #92400e;
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+        .button {
+            display: inline-block;
+            background: linear-gradient(135deg, #CBA135, #B8922E);
+            color: white;
+            padding: 1rem 2.5rem;
+            text-decoration: none;
+            border-radius: 9999px;
+            margin: 1.5rem 0;
+            font-weight: 600;
+            box-shadow: 0 4px 12px rgba(203, 161, 53, 0.3);
+            transition: all 0.3s ease;
+        }
+        .button:hover {
+            box-shadow: 0 6px 16px rgba(203, 161, 53, 0.4);
+            transform: translateY(-2px);
+        }
+        .features {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin: 1.5rem 0;
+        }
+        .feature-item {
+            display: flex;
+            align-items: start;
+            gap: 0.75rem;
+            padding: 0.75rem;
+            background-color: #f9fafb;
+            border-radius: 0.5rem;
+        }
+        .feature-icon {
+            color: #CBA135;
+            font-size: 1.25rem;
+            flex-shrink: 0;
+        }
+        .footer {
+            background-color: #FFFFF0;
+            padding: 2rem;
+            text-align: center;
+            font-size: 0.875rem;
+            color: #71717a;
+            border-top: 1px solid #e5e7eb;
+        }
+        .divider {
+            height: 1px;
+            background: linear-gradient(to right, transparent, #e5e7eb, transparent);
+            margin: 2rem 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="logo">S</div>
+            <h1>Bienvenue sur Galerie Sankofa !</h1>
+        </div>
+        <div class="content">
+            <p style="font-size: 1.125rem; margin-bottom: 1rem;">Bonjour <strong>{{ user.get_full_name|default:user.username }}</strong>,</p>
+            <p style="margin-bottom: 1.5rem;">Nous sommes ravis de vous accueillir sur <strong style="color: #CBA135;">Galerie Sankofa</strong>, votre plateforme d'artisanat traditionnel ivoirien.</p>
+            
+            <div class="info-box">
+                <strong>📋 Informations de votre compte</strong>
+                <ul>
+                    <li><strong>Email :</strong> {{ user.email }}</li>
+                    <li><strong>Nom d'utilisateur :</strong> {{ user.username }}</li>
+                </ul>
+            </div>
+
+            <div class="security-box">
+                <strong>🔒 Sécurité de votre compte</strong>
+                <p style="margin: 0.5rem 0 0 0; color: #92400e;">
+                    Pour votre sécurité, votre mot de passe n'est jamais envoyé par email. 
+                    Si vous avez oublié votre mot de passe, utilisez la fonction "Mot de passe oublié" sur la page de connexion.
+                </p>
+            </div>
+
+            <div class="divider"></div>
+
+            <p style="font-weight: 600; margin-bottom: 1rem; color: #3E2C1B;">✨ Découvrez ce que vous pouvez faire :</p>
+            <div class="features">
+                <div class="feature-item">
+                    <span class="feature-icon">🛍️</span>
+                    <span>Parcourir notre collection d'artisanat traditionnel</span>
+                </div>
+                <div class="feature-item">
+                    <span class="feature-icon">📦</span>
+                    <span>Passer des commandes en ligne</span>
+                </div>
+                <div class="feature-item">
+                    <span class="feature-icon">📊</span>
+                    <span>Suivre vos commandes en temps réel</span>
+                </div>
+                <div class="feature-item">
+                    <span class="feature-icon">👤</span>
+                    <span>Gérer votre profil personnel</span>
+                </div>
+            </div>
+
+            <div style="text-align: center; margin-top: 2rem;">
+                <a href="{{ site_url }}" class="button">🚀 Accéder au site</a>
+            </div>
+
+            <div class="divider"></div>
+
+            <p style="margin-bottom: 0.5rem;">Si vous avez des questions, n'hésitez pas à nous contacter.</p>
+            <p style="margin: 0;"><strong>L'équipe Galerie Sankofa</strong></p>
+        </div>
+        <div class="footer">
+            <p style="margin: 0 0 0.5rem 0; font-weight: 600; color: #3E2C1B;">Galerie Sankofa</p>
+            <p style="margin: 0;">&copy; 2025 Galerie Sankofa. Tous droits réservés.</p>
+            <p style="margin: 0.5rem 0 0 0;">GRAND-BASSAM, Côte d'Ivoire</p>
+        </div>
+    </div>
+</body>
+</html>
